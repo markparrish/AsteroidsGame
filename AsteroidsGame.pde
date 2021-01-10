@@ -33,6 +33,14 @@ public void draw()
   {
     s.show();
   }
+  
+  fill(255);
+  textSize(20);
+  text("X Coordinate: " + nf((float)spaceship.myCenterX, 0, 2) +
+    "\nY Coordinate: " + nf((float)spaceship.myCenterY, 0, 2) + 
+    "\nDirection: " + nf((float)spaceship.myPointDirection, 0, 0) + 
+    "\nHorizontal Speed: " + nf((float)spaceship.myXspeed, 0, 2) + 
+    "\nVertical Speed: " + nf((float)spaceship.myYspeed, 0, 2), 10, 25);
 }
 
 public void keyPressed()
