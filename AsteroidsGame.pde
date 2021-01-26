@@ -1,11 +1,18 @@
-//your variable declarations here
 Spaceship spaceship;
+ArrayList<Asteroid> asteroids;
 Star[] stars = new Star[200];
 boolean wIsPressed, aIsPressed, dIsPressed;
 
 public void setup() 
 {
   spaceship = new Spaceship();
+  
+  asteroids = new ArrayList<Asteroid>();
+  
+  for(int i = 0; i < 5; i++)
+  {
+    asteroids.add(new Asteroid((Math.random()*4)-2));
+  }
   
   size(600, 400);
   background(0);
@@ -19,9 +26,7 @@ public void setup()
 public void draw() 
 {
   background(0);
-  spaceship.show();
-  spaceship.move();
-  
+
   if(wIsPressed)
     spaceship.accelerate(0.1);
   if(aIsPressed)
@@ -33,6 +38,22 @@ public void draw()
   {
     s.show();
   }
+  
+  for(int i = 0; i < asteroids.size(); i++)
+  {
+    asteroids.get(i).move();
+    
+    if(dist((float)asteroids.get(i).myCenterX, (float)asteroids.get(i).myCenterY, (float)spaceship.myCenterX, (float)spaceship.myCenterY) < 40)
+    {
+      asteroids.remove(i);
+      i--;
+    }
+    else
+      asteroids.get(i).show();
+  }
+  
+  spaceship.show();
+  spaceship.move();
   
   fill(255);
   textSize(20);
