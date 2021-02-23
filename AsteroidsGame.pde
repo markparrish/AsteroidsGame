@@ -1,7 +1,9 @@
 Spaceship spaceship;
 ArrayList<Asteroid> asteroids;
+ArrayList<Bullet> bullets;
 Star[] stars = new Star[200];
 boolean wIsPressed, aIsPressed, dIsPressed;
+
 
 public void setup() 
 {
@@ -13,6 +15,8 @@ public void setup()
   {
     asteroids.add(new Asteroid((Math.random()*4)-2));
   }
+  
+  bullets = new ArrayList<Bullet>();
   
   size(600, 400);
   background(0);
@@ -39,6 +43,32 @@ public void draw()
     s.show();
   }
   
+  for(int i = 0; i < bullets.size(); i++)
+  {
+    bullets.get(i).move();
+    
+    if(asteroids.size() != 0)
+    {
+      for(int j = 0; j < asteroids.size(); j++)
+      {
+        if(dist((float)bullets.get(i).myCenterX, (float)bullets.get(i).myCenterY, (float)asteroids.get(j).myCenterX, (float)asteroids.get(j).myCenterY) < 30)
+        {
+          bullets.remove(i);
+          asteroids.remove(j);
+          break;
+        }
+        else
+        {
+          bullets.get(i).show();
+        }
+      }
+    }
+    else
+    {
+      bullets.get(i).show();
+    }
+  }
+  
   for(int i = 0; i < asteroids.size(); i++)
   {
     asteroids.get(i).move();
@@ -49,7 +79,9 @@ public void draw()
       i--;
     }
     else
+    {
       asteroids.get(i).show();
+    }
   }
   
   spaceship.show();
@@ -72,8 +104,24 @@ public void keyPressed()
     aIsPressed = true;
   else if(key == 'd')
     dIsPressed = true;
+  else if(key == ' ')
+     bullets.add(new Bullet(spaceship));
   else if(key == 's')
+  {
     spaceship.hyperspace();
+    
+    asteroids = new ArrayList<Asteroid>();
+    
+    for(int i = 0; i < 5; i++)
+    {
+      asteroids.add(new Asteroid((Math.random()*4)-2));
+    }
+    
+    for(int i = 0; i < stars.length; i++)
+    {
+      stars[i] = new Star();
+    }
+  }
 }
 
 public void keyReleased()
